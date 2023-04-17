@@ -89,9 +89,9 @@ const Footer = () => (
 
 const CreateNew = (props) => {
   const navigate = useNavigate();
-  const content = useField("text");
-  const author = useField("text");
-  const info = useField("text");
+  const { reset: resetContent, ...content } = useField("text");
+  const { reset: resetAuthor, ...author } = useField("text");
+  const { reset: resetInfo, ...info } = useField("text");
 
   const notificationDispatch = useNotificationDispatch();
 
