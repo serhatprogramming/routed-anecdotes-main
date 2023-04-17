@@ -2,8 +2,10 @@ import { useState } from "react";
 
 import { Link, Route, Routes, useMatch, useNavigate } from "react-router-dom";
 
-import { useContext } from "react";
-import NotificationContext from "./NotificationContext";
+import {
+  useNotificationDispatch,
+  useNotificationValue,
+} from "./NotificationContext";
 
 const Menu = () => {
   const padding = {
@@ -89,7 +91,7 @@ const CreateNew = (props) => {
   const [author, setAuthor] = useState("");
   const [info, setInfo] = useState("");
 
-  const [notification, notificationDispatch] = useContext(NotificationContext);
+  const notificationDispatch = useNotificationDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -158,7 +160,7 @@ const App = () => {
     },
   ]);
 
-  const [notification, notificationDispatch] = useContext(NotificationContext);
+  const notification = useNotificationValue();
 
   const addNew = (anecdote) => {
     anecdote.id = Math.round(Math.random() * 10000);
