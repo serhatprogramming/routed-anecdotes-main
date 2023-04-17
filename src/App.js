@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Link, Route, Routes, useMatch } from "react-router-dom";
+import { Link, Route, Routes, useMatch, useNavigate } from "react-router-dom";
 
 const Menu = () => {
   const padding = {
@@ -81,6 +81,7 @@ const Footer = () => (
 );
 
 const CreateNew = (props) => {
+  const navigate = useNavigate();
   const [content, setContent] = useState("");
   const [author, setAuthor] = useState("");
   const [info, setInfo] = useState("");
@@ -93,6 +94,7 @@ const CreateNew = (props) => {
       info,
       votes: 0,
     });
+    navigate("/");
   };
 
   return (
