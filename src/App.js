@@ -2,6 +2,9 @@ import { useState } from "react";
 
 import { Link, Route, Routes, useMatch, useNavigate } from "react-router-dom";
 
+import { useContext } from "react";
+import NotificationContext from "./NotificationContext";
+
 const Menu = () => {
   const padding = {
     paddingRight: 5,
@@ -86,6 +89,8 @@ const CreateNew = (props) => {
   const [author, setAuthor] = useState("");
   const [info, setInfo] = useState("");
 
+  const [notification, notificationDispatch] = useContext(NotificationContext);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     props.addNew({
@@ -94,6 +99,10 @@ const CreateNew = (props) => {
       info,
       votes: 0,
     });
+    notificationDispatch({ type: "ADD", payload: content });
+    setTimeout(() => {
+      notificationDispatch({ type: "CLEAR" });
+    }, 5000);
     navigate("/");
   };
 
@@ -149,7 +158,7 @@ const App = () => {
     },
   ]);
 
-  const [notification, setNotification] = useState("");
+  const [notification, notificationDispatch] = useContext(NotificationContext);
 
   const addNew = (anecdote) => {
     anecdote.id = Math.round(Math.random() * 10000);
@@ -161,8 +170,6 @@ const App = () => {
   const match = useMatch("/anecdotes/:id");
 
   const anecdote = match ? anecdoteById(Number(match.params.id)) : null;
-
-  console.log("anecdote is: ", anecdote);
 
   const vote = (id) => {
     const anecdote = anecdoteById(id);
@@ -179,7 +186,7 @@ const App = () => {
     <div>
       <h1>Software anecdotes</h1>
       <Menu />
-      {notification ? <p>Hello</p> : ""}
+      {notification ? <p>{notification}</p> : ""}
       <Routes>
         <Route path="/" element={<AnecdoteList anecdotes={anecdotes} />} />
         <Route
